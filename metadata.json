@@ -1,0 +1,6 @@
+{
+  "name": "Ketuk-Ketuk Spatular Mama Siti",
+  "description": "Portal resepi masakan warisan dan makanan istimewa Mama Siti, disulami alunan irama dan lagu tradisi, petua dapur serta ketukan spatula.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
