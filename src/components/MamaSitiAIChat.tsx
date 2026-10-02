@@ -24,6 +24,28 @@ export const MamaSitiAIChat: React.FC = () => {
     'Apa petua keria gula melaka gebu tak liat?',
   ];
 
+  const getOfflineMamaSitiReply = (query: string): string => {
+    const lower = query.toLowerCase();
+
+    if (lower.includes('ayam') && (lower.includes('santan') || lower.includes('serai'))) {
+      return `*Ketuk kuali tang tang tang!* 🍳\n\nWah, ada ayam, santan dan serai! Mama cadangkan anakanda cuba resepi **Ayam Masak Merah Kenduri** atau masak lemak cili padi.\n\n**Pantun Pilihan:**\n"Pohon serai daun bersemi,\nSantan diperah santapan ratu;\nAyam dimasak lazat rasmi,\nHidang sepinggan bertambah satu."\n\n**Petua Bonda:** Titik serai biar lebam dan masukkan bersama santan dari mula. Timang kuah sentiasa dengan spatula supaya santan tak pecah minyak ya sayang!\n\n*(Nota: Pelayan AI sedang dalam mod luar talian di GitHub Pages, namun resepi klasik Mama Siti sedia menemani!)*`;
+    }
+
+    if (lower.includes('sambal') || lower.includes('pecah minyak') || lower.includes('tahan lama')) {
+      return `*Ketuk kuali tang tang tang!* 🍳\n\nHaa, ini rahsia turun-temurun Mama Siti untuk sambal tumis pecah minyak:\n\n1. Gunakan minyak yang cukup sewaktu menumis pes cili.\n2. Masak dengan api perlahan. Bila nampak minyak mula naik, renjiskan 2-3 sudu air dan kacau lagi sampai pecah minyak kali kedua.\n3. Masukkan gula melaka dan air asam jawa untuk seimbangkan rasa dan bagi sambal berkilat cantik gelap!\n\n**Pantun Bonda:**\n"Cili digiling merah menyala,\nTumis berapi di kuali besi;\nSambal sedap pembuka selera,\nHabis seperiuk nasi terisi."\n\n*(Nota: Pelayan AI berada dalam mod luar talian di GitHub Pages)*`;
+    }
+
+    if (lower.includes('keria') || lower.includes('keledek')) {
+      return `*Ketuk kuali tang tang tang!* 🍳\n\nPetua Kuih Keria Gula Melaka gebu dan tak liat:\n- Rebus keledek dengan sedikit garam sampai empuk, lenyek waktu masih panas.\n- JANGAN letak tepung gandum terlalu banyak! Cukup sekadar doh boleh dibentuk. Kalau banyak tepung, keria akan liat.\n- Waktu sira gula melaka, biar gula berbuih pekat dulu baru gaulkan keria!\n\n*(Nota: Pelayan AI berada dalam mod luar talian di GitHub Pages)*`;
+    }
+
+    if (lower.includes('rendang') || lower.includes('pantun')) {
+      return `*Ketuk kuali tang tang tang!* 🍳\n\nAmboi, seronoknya anakanda nak dengar pantun rendang!\n\n"Ketuk kuali berbunyi nyaring,\nGulai kawah masak sekata;\nRempah ditumis kelapa digaring,\nRendang Tok siap santapan jelita."\n\n**Irama Mengacau:** Hayati lagu *Dondang Sayang di Dapur* sambil mengacau daging perlahan-lahan. Biar santan merenih pekat hingga menjadi minyak hitam berkilat!\n\n*(Nota: Pelayan AI berada dalam mod luar talian di GitHub Pages)*`;
+    }
+
+    return `*Ketuk kuali tang tang tang!* 🍳\n\nAlahai anakanda sayang, terima kasih sudi bertandang ke dapur Mama Siti!\n\n"Ketuk kuali berirama merdu,\nMasak bersama seisi keluarga;\nResepi enak ubat rindu,\nKasih ibu tiada bertara."\n\n**Petua Bonda:** Apa sahaja masakan yang anakanda sediakan hari ini, mulakan dengan bismillah, masak dengan api sederhana, dan ketuk spatula kuali tanda kasih sayang dicurah!\n\n*(Nota: Talian pelayan AI Mama Siti berada dalam mod luar talian di GitHub Pages kerana persekitaran hos statik. Namun semua koleksi resepi warisan, pemasa memasak, dan radio lagu di atas berfungsi sepenuhnya!)*`;
+  };
+
   const handleSend = async (userText: string) => {
     const query = userText.trim();
     if (!query || isLoading) return;
@@ -39,20 +61,20 @@ export const MamaSitiAIChat: React.FC = () => {
         body: JSON.stringify({ message: query }),
       });
 
+      if (!response.ok) {
+        throw new Error(`API status ${response.status}`);
+      }
+
       const data = await response.json();
-      const reply = data.reply || 'Alahai anakanda, Mama tersilap dengar tadi. Cuba tanya lagi sekali ya!';
+      const reply = data.reply || getOfflineMamaSitiReply(query);
 
       setMessages((prev) => [...prev, { role: 'mama', text: reply }]);
-      // Play cheerful spatula sound when Mama finishes typing!
       kitchenAudio.playSpatulaClack(1.15);
-    } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: 'mama',
-          text: 'Aduhai sayang, kuali Mama berasap sekejap tadi! Cuba tekan tanya lagi sekali ya.',
-        },
-      ]);
+    } catch {
+      // Graceful offline fallback (for GitHub Pages static hosting)
+      const fallbackReply = getOfflineMamaSitiReply(query);
+      setMessages((prev) => [...prev, { role: 'mama', text: fallbackReply }]);
+      kitchenAudio.playSpatulaClack(1.15);
     } finally {
       setIsLoading(false);
     }

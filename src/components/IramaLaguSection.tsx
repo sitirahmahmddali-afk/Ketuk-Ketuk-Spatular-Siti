@@ -37,17 +37,28 @@ export const IramaLaguSection: React.FC<IramaLaguSectionProps> = ({
   const handleGeneratePantun = async () => {
     if (!customDish.trim() || isGenerating) return;
     setIsGenerating(true);
+    const dish = customDish.trim();
+
     try {
       const res = await fetch('/api/gemini/pantun-irama', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dishName: customDish }),
+        body: JSON.stringify({ dishName: dish }),
       });
+
+      if (!res.ok) {
+        throw new Error(`API status ${res.status}`);
+      }
+
       const data = await res.json();
-      setGeneratedPantun(data.content || 'Pantun tidak dapat dijana.');
+      setGeneratedPantun(data.content || `"Ketuk kuali berbunyi nyaring,\nMasak ${dish} wangi bersemi;\nRempah ratus santan digaring,\nHidangan enak pengikat famili."`);
       kitchenAudio.playSpatulaClack(1.2);
     } catch {
-      setGeneratedPantun('Maaf, cubalah sekali lagi sebentar lagi.');
+      // Graceful offline fallback
+      setGeneratedPantun(
+        `"Ketuk kuali berbunyi nyaring,\nMasak ${dish} wangi bersemi;\nRempah ratus santan digaring,\nHidangan enak pengikat famili.\n\nSpatula digoyang lauk pun masak,\nIrama berdendang sekeluarga gembira!"\n\n(Pantun warisan khas Mama Siti · Mod santai luar talian)`
+      );
+      kitchenAudio.playSpatulaClack(1.2);
     } finally {
       setIsGenerating(false);
     }

@@ -232,54 +232,58 @@ class KitchenAudioEngine {
 
   // Play single note in traditional Gambang / Angklung / Gamelan warm acoustic style
   private playTraditionalNote(freq: number, duration: number) {
-    const ctx = this.getContext();
-    const now = ctx.currentTime;
+    try {
+      const ctx = this.getContext();
+      const now = ctx.currentTime;
 
-    const osc = ctx.createOscillator();
-    const oscHarmonic = ctx.createOscillator();
-    const gain = ctx.createGain();
-    const filter = ctx.createBiquadFilter();
+      const osc = ctx.createOscillator();
+      const oscHarmonic = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const filter = ctx.createBiquadFilter();
 
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(freq, now);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, now);
 
-    oscHarmonic.type = 'triangle';
-    oscHarmonic.frequency.setValueAtTime(freq * 2, now);
+      oscHarmonic.type = 'triangle';
+      oscHarmonic.frequency.setValueAtTime(freq * 2, now);
 
-    filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(1800, now);
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(1800, now);
 
-    // Warm marimba/gamelan envelope
-    gain.gain.setValueAtTime(0.001, now);
-    gain.gain.linearRampToValueAtTime(0.32 * this.musicVolume, now + 0.04);
-    gain.gain.exponentialRampToValueAtTime(0.001, now + duration * 1.2);
+      // Warm marimba/gamelan envelope
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.32 * this.musicVolume, now + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + duration * 1.2);
 
-    osc.connect(filter);
-    oscHarmonic.connect(filter);
-    filter.connect(gain);
-    gain.connect(ctx.destination);
+      osc.connect(filter);
+      oscHarmonic.connect(filter);
+      filter.connect(gain);
+      gain.connect(ctx.destination);
 
-    osc.start(now);
-    oscHarmonic.start(now);
-    osc.stop(now + duration * 1.3);
-    oscHarmonic.stop(now + duration * 1.3);
+      osc.start(now);
+      oscHarmonic.start(now);
+      osc.stop(now + duration * 1.3);
+      oscHarmonic.stop(now + duration * 1.3);
 
-    // Occasional gentle woodblock / kendang tap to keep the beat
-    if (Math.random() > 0.4) {
-      const beatOsc = ctx.createOscillator();
-      const beatGain = ctx.createGain();
-      beatOsc.type = 'sine';
-      beatOsc.frequency.setValueAtTime(190, now);
-      beatOsc.frequency.exponentialRampToValueAtTime(60, now + 0.08);
+      // Occasional gentle woodblock / kendang tap to keep the beat
+      if (Math.random() > 0.4) {
+        const beatOsc = ctx.createOscillator();
+        const beatGain = ctx.createGain();
+        beatOsc.type = 'sine';
+        beatOsc.frequency.setValueAtTime(190, now);
+        beatOsc.frequency.exponentialRampToValueAtTime(60, now + 0.08);
 
-      beatGain.gain.setValueAtTime(0.12 * this.musicVolume, now);
-      beatGain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
+        beatGain.gain.setValueAtTime(0.12 * this.musicVolume, now);
+        beatGain.gain.exponentialRampToValueAtTime(0.001, now + 0.09);
 
-      beatOsc.connect(beatGain);
-      beatGain.connect(ctx.destination);
+        beatOsc.connect(beatGain);
+        beatGain.connect(ctx.destination);
 
-      beatOsc.start(now);
-      beatOsc.stop(now + 0.1);
+        beatOsc.start(now);
+        beatOsc.stop(now + 0.1);
+      }
+    } catch {
+      // Audio autoplay policy or device restricted
     }
   }
 

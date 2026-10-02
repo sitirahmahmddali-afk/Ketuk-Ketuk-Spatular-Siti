@@ -1,3 +1,8 @@
+import rendangImg from '../assets/images/rendang_daging_tok_1790908323016.jpg';
+import masakLemakImg from '../assets/images/masak_lemak_cili_padi_1790908333391.jpg';
+import kuihSeriMukaImg from '../assets/images/kuih_seri_muka_pandan_1790908345959.jpg';
+import kitchenHeroImg from '../assets/images/hero_mama_siti_kitchen_1790908309572.jpg';
+
 export interface RecipeIngredient {
   name: string;
   amount: number;
@@ -39,7 +44,7 @@ export const RECIPES_DATA: Recipe[] = [
     title: 'Rendang Daging Tok Warisan',
     subtitle: 'Rendang gelap berkilat rempah ratus asli Perak dengan kerisik kelapa wangi',
     category: 'Lauk Kenduri',
-    image: '/src/assets/images/rendang_daging_tok_1790908323016.jpg',
+    image: rendangImg,
     timeMinutes: 120,
     servings: 6,
     difficulty: 'Istimewa',
@@ -119,7 +124,7 @@ export const RECIPES_DATA: Recipe[] = [
     title: 'Masak Lemak Cili Padi Udang Galah & Nenas',
     subtitle: 'Kuah santan kuning pekat berkilat dengan paduan masam manis nenas dan udang segar',
     category: 'Masakan Berkuah',
-    image: '/src/assets/images/masak_lemak_cili_padi_1790908333391.jpg',
+    image: masakLemakImg,
     timeMinutes: 35,
     servings: 4,
     difficulty: 'Mudah',
@@ -186,7 +191,7 @@ export const RECIPES_DATA: Recipe[] = [
     title: 'Kuih Seri Muka Pandan Asli',
     subtitle: 'Lapisan hijau kastard pandan licin berkaca di atas pulut lemak bersantan',
     category: 'Kuih Muih',
-    image: '/src/assets/images/kuih_seri_muka_pandan_1790908345959.jpg',
+    image: kuihSeriMukaImg,
     timeMinutes: 50,
     servings: 8,
     difficulty: 'Sederhana',
@@ -252,7 +257,7 @@ export const RECIPES_DATA: Recipe[] = [
     title: 'Ayam Masak Merah Kenduri Kahwin',
     subtitle: 'Ayam bersalut rempah madu tumis wangi dengan sos tomato pekat dan kacang pis',
     category: 'Lauk Kenduri',
-    image: '/src/assets/images/hero_mama_siti_kitchen_1790908309572.jpg',
+    image: kitchenHeroImg,
     timeMinutes: 45,
     servings: 5,
     difficulty: 'Mudah',
@@ -319,7 +324,7 @@ export const RECIPES_DATA: Recipe[] = [
     title: 'Sambal Sotong Kering Petai Merecik',
     subtitle: 'Sambal tumis cili giling legam dengan sotong kembang kenyal dan biji petai segar',
     category: 'Sambal & Goreng',
-    image: '/src/assets/images/hero_mama_siti_kitchen_1790908309572.jpg',
+    image: kitchenHeroImg,
     timeMinutes: 40,
     servings: 4,
     difficulty: 'Sederhana',
@@ -385,7 +390,7 @@ export const RECIPES_DATA: Recipe[] = [
     title: 'Air Sirap Bandung Selasih Ais Padu',
     subtitle: 'Minuman pencuci mulut sejuk merah jambu bersusu lemak manis dengan aroma mawar',
     category: 'Minuman Segar',
-    image: '/src/assets/images/kuih_seri_muka_pandan_1790908345959.jpg',
+    image: kuihSeriMukaImg,
     timeMinutes: 10,
     servings: 6,
     difficulty: 'Mudah',

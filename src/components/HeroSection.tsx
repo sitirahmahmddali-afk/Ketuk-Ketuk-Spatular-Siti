@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, Utensils, Music, Sparkles, Flame, Check } from 'lucide-react';
 import { Recipe } from '../data/recipes';
+import heroMamaSitiKitchen from '../assets/images/hero_mama_siti_kitchen_1790908309572.jpg';
 
 interface HeroSectionProps {
   searchQuery: string;
@@ -118,7 +119,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-2xl overflow-hidden shadow-lg border border-amber-900/10 aspect-[4/3] bg-stone-200 group">
               <img
-                src="/src/assets/images/hero_mama_siti_kitchen_1790908309572.jpg"
+                src={heroMamaSitiKitchen}
                 alt="Dapur Warisan Tradisional Mama Siti"
                 className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
                 referrerPolicy="no-referrer"
