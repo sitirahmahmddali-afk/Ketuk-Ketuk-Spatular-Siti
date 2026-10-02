@@ -37,7 +37,29 @@ jobs:
         run: npm ci
 
       - name: Build production bundle
-        run: npm run build
+        run: |
+          npm run build
+          cp dist/index.html dist/404.html
+
+      - name: Verify production output
+        run: |
+          echo "=== dist contents ==="
+          find dist -maxdepth 2 -type f | sort
+
+          echo "=== dist/index.html ==="
+          cat dist/index.html
+
+          echo "=== Check for source main.tsx reference ==="
+          if grep -q "/src/main.tsx" dist/index.html; then
+            echo "ERROR: dist/index.html still references src/main.tsx"
+            exit 1
+          else
+            echo "OK: dist/index.html contains production bundle"
+          fi
+
+          echo "=== Check required files ==="
+          test -f dist/index.html
+          test -d dist/assets
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
